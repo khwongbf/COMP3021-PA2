@@ -3,6 +3,8 @@ package viewmodel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
+import javafx.stage.PopupWindow;
+import javafx.stage.Window;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,6 +35,8 @@ public class LevelEditorCanvas extends Canvas {
      */
     public LevelEditorCanvas(int rows, int cols) {
         //TODO
+        super(rows * LEVEL_EDITOR_TILE_SIZE, cols *LEVEL_EDITOR_TILE_SIZE);
+        resetMap(rows, cols);
     }
 
     /**
@@ -56,6 +60,13 @@ public class LevelEditorCanvas extends Canvas {
      */
     private void resetMap(int rows, int cols) {
         //TODO
+        map = new Brush[rows][cols];
+        for (int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                map[i][j]= Brush.TILE;
+            }
+        }
+        renderCanvas();
     }
 
     /**
@@ -63,6 +74,7 @@ public class LevelEditorCanvas extends Canvas {
      */
     private void renderCanvas() {
         //TODO
+        MapRenderer.render(this, map);
     }
 
     /**
@@ -86,6 +98,33 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void setTile(Brush brush, double x, double y) {
         //TODO
+        int row = Double.valueOf(y/LEVEL_EDITOR_TILE_SIZE).intValue();
+        int col = Double.valueOf(x/LEVEL_EDITOR_TILE_SIZE).intValue();
+
+        // Remove the original player location
+        switch (brush){
+            case PLAYER_ON_TILE:
+            case PLAYER_ON_DEST:
+                for (int i =0; i < map.length; i++){
+                    for (int j = 0; j < map[i].length; j++){
+                        switch (map[i][j]){
+                            case PLAYER_ON_TILE:
+                                map[i][j] = Brush.TILE;
+
+                                break;
+                            case PLAYER_ON_DEST:
+                                map[i][j] = Brush.DEST;
+                                break;
+                        }
+                    }
+                }
+                break;
+        }
+
+        map[row][col] = brush;
+
+        renderCanvas();
+
     }
 
     /**
@@ -94,6 +133,7 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void saveToFile() {
         //TODO
+
     }
 
     /**
@@ -105,7 +145,10 @@ public class LevelEditorCanvas extends Canvas {
      */
     private File getTargetSaveDirectory() {
         //TODO
-        return null;//NOTE: You may also need to modify this line
+        var fileChooser = new FileChooser();
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Normal text file", "*.txt"));
+        return fileChooser.showSaveDialog(new PopupWindow() {
+        });//NOTE: You may also need to modify this line
     }
 
     /**
@@ -122,7 +165,42 @@ public class LevelEditorCanvas extends Canvas {
      */
     private boolean isInvalidMap() {
         //TODO
-        return true;//NOTE: You may also need to modify this line
+        var invalidCondition = new boolean[4];
+        invalidCondition[0] = rows < 3 && cols < 3;
+
+        int playerCount = 0;
+        int crateCount = 0;
+        int destCount = 0;
+
+        for (var i: map){
+            for (var j:i){
+                switch (j){
+                    case PLAYER_ON_TILE:
+                        playerCount++;
+                        break;
+                    case PLAYER_ON_DEST:
+                        destCount++;
+                        playerCount++;
+                        break;
+                    case CRATE_ON_TILE:
+                        crateCount++;
+                        break;
+                    case CRATE_ON_DEST:
+                        crateCount++;
+                        destCount++;
+                        break;
+                    case DEST:
+                        destCount++;
+                        break;
+                }
+            }
+        }
+        invalidCondition[1] = (playerCount != 1);
+        invalidCondition[2] = (crateCount != destCount);
+        invalidCondition[3] = (crateCount < 1 || destCount < 1);
+
+
+        return !(Arrays.equals(new boolean[4], invalidCondition));//NOTE: You may also need to modify this line
     }
 
     /**

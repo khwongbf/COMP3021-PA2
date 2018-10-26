@@ -36,6 +36,7 @@ public class GameplayPane extends BorderPane {
      */
     public GameplayPane() {
         //TODO
+        super();
     }
 
     /**
@@ -115,5 +116,6 @@ public class GameplayPane extends BorderPane {
      */
     private void renderCanvas() {
         //TODO
+        MapRenderer.render(gamePlayCanvas,);
     }
 }

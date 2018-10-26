@@ -45,6 +45,10 @@ public class LevelEditorPane extends BorderPane {
      */
     public LevelEditorPane() {
         //TODO
+        levelEditor = new LevelEditorCanvas(5,5);
+        rowField = new NumberTextField("5");
+        colField = new NumberTextField("5");
+
     }
 
     /**
