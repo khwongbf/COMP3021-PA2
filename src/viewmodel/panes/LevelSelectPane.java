@@ -125,7 +125,5 @@ public class LevelSelectPane extends BorderPane {
             LevelManager.getInstance().setMapDirectory(directory.getAbsolutePath());
             LevelManager.getInstance().loadLevelNamesFromDisk();
         }
-
-
     }
 }
