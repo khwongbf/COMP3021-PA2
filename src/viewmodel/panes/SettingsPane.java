@@ -27,6 +27,18 @@ public class SettingsPane extends BorderPane {
      */
     public SettingsPane() {
         //TODO
+        super();
+        leftContainer = new VBox(20);
+        returnButton = new Button("Return");
+        toggleSoundFXButton = new Button();
+        toggleSoundFXButton.setText(AudioManager.getInstance().isEnabled()? "Disable Sound FX": "Enable Sound FX");
+        centerContainer = new VBox(20);
+        infoText = new TextArea(Config.getAboutText());
+
+        styleComponents();
+        connectComponents();
+        setCallbacks();
+
     }
 
     /**
@@ -34,6 +46,11 @@ public class SettingsPane extends BorderPane {
      */
     private void connectComponents() {
         //TODO
+        leftContainer.getChildren().addAll(returnButton,toggleSoundFXButton);
+        centerContainer.getChildren().addAll(infoText);
+
+        this.setCenter(centerContainer);
+        this.setLeft(leftContainer);
     }
 
     /**
@@ -43,6 +60,13 @@ public class SettingsPane extends BorderPane {
      */
     private void styleComponents() {
         //TODO
+        leftContainer.getStyleClass().add("side-menu");
+        returnButton.getStyleClass().add("big-button");
+        toggleSoundFXButton.getStyleClass().add("big-button");
+        infoText.getStyleClass().add("text-area");
+
+        infoText.setEditable(false);
+        infoText.setWrapText(true);
     }
 
     /**
@@ -51,5 +75,15 @@ public class SettingsPane extends BorderPane {
      */
     private void setCallbacks() {
         //TODO
+        returnButton.setOnMouseClicked(event -> SceneManager.getInstance().showMainMenuScene());
+        toggleSoundFXButton.setOnMouseClicked(event -> {
+            if (AudioManager.getInstance().isEnabled()){
+                AudioManager.getInstance().setEnabled(false);
+                toggleSoundFXButton.setText("Enable Sound FX");
+            }else {
+                AudioManager.getInstance().setEnabled(true);
+                toggleSoundFXButton.setText("Disable Sound FX");
+            }
+        });
     }
 }

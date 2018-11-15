@@ -25,7 +25,6 @@ public class MainMenuPane extends BorderPane {
     public MainMenuPane() {
         //TODO
         super();
-        this.getScene().getStylesheets().add(SceneManager.class.getResource("/assets/css/styles.css").toString());
 
         title = new Label("Sokoban");
         playButton = new Button("Play");
