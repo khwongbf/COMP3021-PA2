@@ -142,8 +142,31 @@ public class LevelEditorCanvas extends Canvas {
                 printWriter.println(cols);
                 for (var i = 0 ; i < rows; i++){
                     for (var j = 0; j< cols; j++){
-                        
+                        switch (map[i][j]){
+                            case TILE:
+                                printWriter.print('.');
+                                break;
+                            case PLAYER_ON_TILE:
+                                printWriter.print('@');
+                                break;
+                            case PLAYER_ON_DEST:
+                                printWriter.print('&');
+                                break;
+                            case CRATE_ON_TILE:
+                                printWriter.print('c');
+                                break;
+                            case CRATE_ON_DEST:
+                                printWriter.print('$');
+                                break;
+                            case WALL:
+                                printWriter.print('#');
+                                break;
+                            case DEST:
+                                printWriter.print('C');
+                                break;
+                        }
                     }
+                    printWriter.println();
                 }
             }catch (FileNotFoundException e){
                 e.printStackTrace();
