@@ -24,6 +24,19 @@ public class MainMenuPane extends BorderPane {
      */
     public MainMenuPane() {
         //TODO
+        super();
+        this.getScene().getStylesheets().add(SceneManager.class.getResource("/assets/css/styles.css").toString());
+
+        title = new Label("Sokoban");
+        playButton = new Button("Play");
+        levelEditorButton = new Button("Level Editor");
+        settingsButton = new Button("About / Settings");
+        quitButton = new Button("Quit");
+        container = new VBox();
+
+        styleComponents();
+        connectComponents();
+        setCallbacks();
     }
 
     /**
@@ -46,6 +59,11 @@ public class MainMenuPane extends BorderPane {
      */
     private void styleComponents() {
         //TODO
+        container.getStyleClass().add("big-vbox");
+        playButton.getStyleClass().add("big-button");
+        levelEditorButton.getStyleClass().add("big-button");
+        settingsButton.getStyleClass().add("big-button");
+        quitButton.getStyleClass().add("big-button");
     }
 
     /**
@@ -53,5 +71,9 @@ public class MainMenuPane extends BorderPane {
      */
     private void setCallbacks() {
         //TODO
+        playButton.setOnMouseClicked(event -> SceneManager.getInstance().showLevelSelectMenuScene());
+        levelEditorButton.setOnMouseClicked(event -> SceneManager.getInstance().showLevelEditorScene());
+        settingsButton.setOnMouseClicked(event -> SceneManager.getInstance().showSettingsMenuScene());
+        quitButton.setOnMouseClicked(event -> Platform.exit());
     }
 }
