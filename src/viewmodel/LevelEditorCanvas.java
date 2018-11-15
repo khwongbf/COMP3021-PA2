@@ -8,6 +8,7 @@ import javafx.stage.Window;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
@@ -133,7 +134,23 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void saveToFile() {
         //TODO
-
+        var file = getTargetSaveDirectory();
+        if (file != null){
+            try(var printWriter = new PrintWriter(file)){
+                file.createNewFile();
+                printWriter.println(rows);
+                printWriter.println(cols);
+                for (var i = 0 ; i < rows; i++){
+                    for (var j = 0; j< cols; j++){
+                        
+                    }
+                }
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
