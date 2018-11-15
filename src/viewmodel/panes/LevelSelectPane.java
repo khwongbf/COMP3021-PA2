@@ -33,6 +33,18 @@ public class LevelSelectPane extends BorderPane {
      */
     public LevelSelectPane() {
         //TODO
+        super();
+        leftContainer = new VBox(20);
+        returnButton = new Button("Return");
+        playButton = new Button("Play");
+        chooseMapDirButton = new Button("Choose map directory");
+        levelsListView = new ListView<>();
+        centerContainer = new VBox(20);
+        levelPreview = new Canvas();
+
+        styleComponents();
+        connectComponents();
+        setCallbacks();
     }
 
     /**
@@ -41,6 +53,10 @@ public class LevelSelectPane extends BorderPane {
      */
     private void connectComponents() {
         //TODO
+        leftContainer.getChildren().addAll(returnButton,chooseMapDirButton,levelsListView,playButton);
+        centerContainer.getChildren().addAll(levelPreview);
+        this.setLeft(leftContainer);
+        this.setCenter(centerContainer);
     }
 
     /**
@@ -48,6 +64,13 @@ public class LevelSelectPane extends BorderPane {
      */
     private void styleComponents() {
         //TODO
+        returnButton.getStyleClass().add("big-button");
+        chooseMapDirButton.getStyleClass().add("big-button");
+        playButton.getStyleClass().add("big-button");
+        playButton.setDisable(true);
+
+        leftContainer.getStyleClass().add("side-menu");
+        centerContainer.getStyleClass().add("big-vbox");
     }
 
     /**
@@ -63,6 +86,29 @@ public class LevelSelectPane extends BorderPane {
      */
     private void setCallbacks() {
         //TODO
+        returnButton.setOnAction(event -> SceneManager.getInstance().showMainMenuScene());
+        chooseMapDirButton.setOnAction(event -> {
+            promptUserForMapDirectory();
+            levelsListView.setItems(LevelManager.getInstance().getLevelNames());
+        });
+        playButton.setOnAction(event -> {
+            try {
+                LevelManager.getInstance().setLevel(levelsListView.getSelectionModel().getSelectedItem());
+                SceneManager.getInstance().showGamePlayScene();
+                LevelManager.getInstance().startLevelTimer();
+            }catch (InvalidMapException e){
+                playButton.setDisable(true);
+            }
+        });
+        levelsListView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            try{
+                LevelManager.getInstance().setLevel(newValue);
+                MapRenderer.render(levelPreview,LevelManager.getInstance().getGameLevel().getMap().getCells());
+                playButton.setDisable(false);
+            }catch (InvalidMapException e){
+                playButton.setDisable(true);
+            }
+        }));
     }
 
     /**
@@ -72,5 +118,14 @@ public class LevelSelectPane extends BorderPane {
      */
     private void promptUserForMapDirectory() {
         //TODO
+        var directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Load map directory");
+        var directory = directoryChooser.showDialog(null);
+        if (directory != null){
+            LevelManager.getInstance().setMapDirectory(directory.getAbsolutePath());
+            LevelManager.getInstance().loadLevelNamesFromDisk();
+        }
+
+
     }
 }

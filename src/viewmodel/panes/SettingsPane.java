@@ -67,6 +67,7 @@ public class SettingsPane extends BorderPane {
 
         infoText.setEditable(false);
         infoText.setWrapText(true);
+        centerContainer.getStyleClass().add("big-vbox");
     }
 
     /**
@@ -75,8 +76,8 @@ public class SettingsPane extends BorderPane {
      */
     private void setCallbacks() {
         //TODO
-        returnButton.setOnMouseClicked(event -> SceneManager.getInstance().showMainMenuScene());
-        toggleSoundFXButton.setOnMouseClicked(event -> {
+        returnButton.setOnAction(event -> SceneManager.getInstance().showMainMenuScene());
+        toggleSoundFXButton.setOnAction(event -> {
             if (AudioManager.getInstance().isEnabled()){
                 AudioManager.getInstance().setEnabled(false);
                 toggleSoundFXButton.setText("Enable Sound FX");

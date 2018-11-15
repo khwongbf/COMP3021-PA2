@@ -37,6 +37,16 @@ public class GameplayPane extends BorderPane {
     public GameplayPane() {
         //TODO
         super();
+
+        canvasContainer = new VBox(20);
+        gamePlayCanvas = new Canvas();
+        buttonBar = new HBox();
+        restartButton = new Button();
+        quitToMenuButton = new Button();
+
+        styleComponents();
+        connectComponents();
+        setCallbacks();
     }
 
     /**

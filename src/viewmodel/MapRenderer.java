@@ -96,28 +96,30 @@ public class MapRenderer {
         canvas.setWidth(map[0].length * LEVEL_EDITOR_TILE_SIZE);
         for (int i = 0; i < map.length; i++){
             for (int j = 0; j < map[i].length; j++){
-                if (map[i][j] instanceof DestTile){
-                    if (((Tile) map[i][j]).getOccupant().isPresent()){
-                        if (((DestTile) map[i][j]).getOccupant().get() instanceof Player){
-                            canvas.getGraphicsContext2D().drawImage(playerOnDest,i*LEVEL_EDITOR_TILE_SIZE, j*LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE,LEVEL_EDITOR_TILE_SIZE);
-                        }else{
-                            canvas.getGraphicsContext2D().drawImage(crateOnDest,i*LEVEL_EDITOR_TILE_SIZE, j*LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE,LEVEL_EDITOR_TILE_SIZE);
+                if (map[i][j] instanceof Occupiable){
+                    if (map[i][j] instanceof DestTile) {
+                        if (((DestTile) map[i][j]).getOccupant().isPresent()) {
+                            if (((DestTile) map[i][j]).getOccupant().get() instanceof Player) {
+                                canvas.getGraphicsContext2D().drawImage(playerOnDest, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                            } else {
+                                canvas.getGraphicsContext2D().drawImage(crateOnDest, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                            }
+                        } else {
+                            canvas.getGraphicsContext2D().drawImage(dest, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                         }
-                    }else {
-                        canvas.getGraphicsContext2D().drawImage(dest,i*LEVEL_EDITOR_TILE_SIZE, j*LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE,LEVEL_EDITOR_TILE_SIZE);
-                    }
-                } else if (map[i][j] instanceof Tile){
-                    if (((Tile) map[i][j]).getOccupant().isPresent()){
-                        if (((Tile) map[i][j]).getOccupant().get() instanceof Player){
-                            canvas.getGraphicsContext2D().drawImage(playerOnTile,i*LEVEL_EDITOR_TILE_SIZE, j*LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE,LEVEL_EDITOR_TILE_SIZE);
-                        }else{
-                            canvas.getGraphicsContext2D().drawImage(crateOnTile,i*LEVEL_EDITOR_TILE_SIZE, j*LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE,LEVEL_EDITOR_TILE_SIZE);
+                    } else {
+                        if (((Tile) map[i][j]).getOccupant().isPresent()) {
+                            if (((Tile) map[i][j]).getOccupant().get() instanceof Player) {
+                                canvas.getGraphicsContext2D().drawImage(playerOnTile, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                            } else {
+                                canvas.getGraphicsContext2D().drawImage(crateOnTile, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                            }
+                        } else {
+                            canvas.getGraphicsContext2D().drawImage(tile, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                         }
-                    }else {
-                        canvas.getGraphicsContext2D().drawImage(tile,i*LEVEL_EDITOR_TILE_SIZE, j*LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE,LEVEL_EDITOR_TILE_SIZE);
                     }
-                }else {
-                    canvas.getGraphicsContext2D().drawImage(wall,i*LEVEL_EDITOR_TILE_SIZE, j*LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE,LEVEL_EDITOR_TILE_SIZE);
+                } else {
+                    canvas.getGraphicsContext2D().drawImage(wall, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                 }
             }
         }

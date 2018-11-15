@@ -3,12 +3,10 @@ package viewmodel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
-import javafx.stage.PopupWindow;
-import javafx.stage.Window;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
@@ -134,10 +132,12 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void saveToFile() {
         //TODO
+        if (isInvalidMap()){
+            return;
+        }
         var file = getTargetSaveDirectory();
         if (file != null){
             try(var printWriter = new PrintWriter(file)){
-                file.createNewFile();
                 printWriter.println(rows);
                 printWriter.println(cols);
                 for (var i = 0 ; i < rows; i++){
@@ -170,8 +170,6 @@ public class LevelEditorCanvas extends Canvas {
                 }
             }catch (FileNotFoundException e){
                 e.printStackTrace();
-            }catch (IOException e){
-                e.printStackTrace();
             }
         }
     }
@@ -186,9 +184,9 @@ public class LevelEditorCanvas extends Canvas {
     private File getTargetSaveDirectory() {
         //TODO
         var fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Map");
         fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Normal text file", "*.txt"));
-        return fileChooser.showSaveDialog(new PopupWindow() {
-        });//NOTE: You may also need to modify this line
+        return fileChooser.showSaveDialog(null );//NOTE: You may also need to modify this line
     }
 
     /**
@@ -205,13 +203,9 @@ public class LevelEditorCanvas extends Canvas {
      */
     private boolean isInvalidMap() {
         //TODO
-        var invalidCondition = new boolean[4];
-        invalidCondition[0] = rows < 3 && cols < 3;
-
         int playerCount = 0;
         int crateCount = 0;
         int destCount = 0;
-
         for (var i: map){
             for (var j:i){
                 switch (j){
@@ -235,11 +229,9 @@ public class LevelEditorCanvas extends Canvas {
                 }
             }
         }
-        invalidCondition[1] = (playerCount != 1);
-        invalidCondition[2] = (crateCount != destCount);
-        invalidCondition[3] = (crateCount < 1 || destCount < 1);
 
-
+        var invalidCondition = Arrays.asList((crateCount < 1 || destCount < 1), (crateCount != destCount), (playerCount != 1), (rows < 3 && cols < 3));
+        if (invalidCondition.stream().)
         return !(Arrays.equals(new boolean[4], invalidCondition));//NOTE: You may also need to modify this line
     }
 
