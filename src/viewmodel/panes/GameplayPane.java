@@ -1,7 +1,5 @@
 package viewmodel.panes;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
@@ -46,7 +44,7 @@ public class GameplayPane extends BorderPane {
         restartButton = new Button();
         quitToMenuButton = new Button();
         
-        info = new GameplayInfoPane(new SimpleStringProperty(""),  new SimpleIntegerProperty(0), new SimpleIntegerProperty(0),new SimpleIntegerProperty(0) );
+        info = new GameplayInfoPane(LevelManager.getInstance().currentLevelNameProperty(),  LevelManager.getInstance().curGameLevelExistedDurationProperty(), LevelManager.getInstance().getGameLevel().numPushesProperty(), LevelManager.getInstance().curGameLevelNumRestartsProperty());
 
         styleComponents();
         connectComponents();
