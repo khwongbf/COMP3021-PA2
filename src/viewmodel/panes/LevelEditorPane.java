@@ -82,6 +82,7 @@ public class LevelEditorPane extends BorderPane {
         
         leftContainer.getChildren().addAll(returnButton,rowBox,colBox,newGridButton,selectedBrush,saveButton);
         centerContainer.getChildren().addAll(levelEditor);
+        
     }
 
     /**
@@ -89,6 +90,16 @@ public class LevelEditorPane extends BorderPane {
      */
     private void styleComponents() {
         //TODO
+        leftContainer.getStyleClass().add("side-menu");
+        returnButton.getStyleClass().add("big-button");
+        newGridButton.getStyleClass().add("big-button");
+        saveButton.getStyleClass().add("big-button");
+        centerContainer.getStyleClass().add("big-vbox");
+        
+        rowField.getStyleClass().add("text-field");
+        colField.getStyleClass().add("text-field");
+        
+        
     }
 
     /**
