@@ -78,8 +78,9 @@ public class LevelManager {
     public void setLevel(String levelName) throws InvalidMapException {
         //TODO
         curLevelNameProperty.set(levelName);
+        resetLevelTimer();
         curGameLevelExistedDuration.set(0);
-        loadLevelNamesFromDisk();
+        gameLevel.loadMap(levelName);
     }
 
     /**
@@ -90,6 +91,12 @@ public class LevelManager {
      */
     public void startLevelTimer() {
         //TODO
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(()->curGameLevelExistedDuration.setValue(curGameLevelExistedDuration.getValue() + 1 ));
+            }
+        },1000, 1000);
         
     }
 

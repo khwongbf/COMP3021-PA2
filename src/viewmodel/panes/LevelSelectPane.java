@@ -53,6 +53,9 @@ public class LevelSelectPane extends BorderPane {
      */
     private void connectComponents() {
         //TODO
+        returnButton.setAlignment(Pos.CENTER);
+        chooseMapDirButton.setAlignment(Pos.CENTER);
+        playButton.setAlignment(Pos.CENTER);
         leftContainer.getChildren().addAll(returnButton,chooseMapDirButton,levelsListView,playButton);
         centerContainer.getChildren().addAll(levelPreview);
         this.setLeft(leftContainer);
