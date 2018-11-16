@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -53,7 +54,9 @@ public class LevelEditorPane extends BorderPane {
         returnButton = new Button("Return");
         newGridButton = new Button("New Grid");
         saveButton = new Button("Save");
+        brushList = FXCollections.observableArrayList();
         brushList.addAll(LevelEditorCanvas.Brush.values());
+        selectedBrush.setFixedCellSize(Config.LIST_CELL_HEIGHT);
         leftContainer = new VBox(20);
         centerContainer = new VBox(20);
         rowBox = new BorderPane();
@@ -73,6 +76,17 @@ public class LevelEditorPane extends BorderPane {
     private void connectComponents() {
         //TODO
         selectedBrush.setItems(brushList);
+        /*
+        selectedBrush.setCellFactory(param -> {
+            var brushCell = new ListCell<Brush>(){
+                @Override
+                protected void updateItem (Brush item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(item.toString());
+                }
+            };
+            return brushCell;
+        });*/
         selectedBrush.getSelectionModel().select(0);
         
         rowBox.setLeft(rowText);
@@ -81,8 +95,13 @@ public class LevelEditorPane extends BorderPane {
         colBox.setCenter(colField);
         
         leftContainer.getChildren().addAll(returnButton,rowBox,colBox,newGridButton,selectedBrush,saveButton);
-        centerContainer.getChildren().addAll(levelEditor);
+        leftContainer.setAlignment(Pos.TOP_CENTER);
         
+        centerContainer.getChildren().addAll(levelEditor);
+        centerContainer.setAlignment(Pos.CENTER);
+        
+        this.setLeft(leftContainer);
+        this.setCenter(centerContainer);
     }
 
     /**
@@ -99,7 +118,8 @@ public class LevelEditorPane extends BorderPane {
         rowField.getStyleClass().add("text-field");
         colField.getStyleClass().add("text-field");
         
-        
+        rowBox.getStyleClass().add("big-hbox");
+        colBox.getStyleClass().add("big-hbox");
     }
 
     /**
@@ -114,5 +134,9 @@ public class LevelEditorPane extends BorderPane {
      */
     private void setCallbacks() {
         //TODO
+        returnButton.setOnAction(event -> SceneManager.getInstance().showMainMenuScene());
+        newGridButton.setOnAction(event -> levelEditor.changeSize(rowField.getValue(), colField.getValue()));
+        saveButton.setOnAction(event -> levelEditor.saveToFile());
+        levelEditor.setOnMouseClicked(event -> levelEditor.setTile(selectedBrush.getSelectionModel().getSelectedItem(), event.getX(), event.getY()));
     }
 }

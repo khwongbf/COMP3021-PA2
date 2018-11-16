@@ -1,5 +1,7 @@
 package viewmodel.panes;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
@@ -43,6 +45,8 @@ public class GameplayPane extends BorderPane {
         buttonBar = new HBox();
         restartButton = new Button();
         quitToMenuButton = new Button();
+        
+        info = new GameplayInfoPane(new SimpleStringProperty(""),  new SimpleIntegerProperty(0), new SimpleIntegerProperty(0),new SimpleIntegerProperty(0) );
 
         styleComponents();
         connectComponents();
@@ -54,6 +58,9 @@ public class GameplayPane extends BorderPane {
      */
     private void connectComponents() {
         //TODO
+        buttonBar.getChildren().addAll(info,restartButton,quitToMenuButton);
+        canvasContainer.getChildren().addAll(gamePlayCanvas,buttonBar);
+        this.setCenter(canvasContainer);
     }
 
     /**
@@ -61,6 +68,10 @@ public class GameplayPane extends BorderPane {
      */
     private void styleComponents() {
         //TODO
+        restartButton.getStyleClass().add("big-button");
+        quitToMenuButton.getStyleClass().add("big-button");
+        buttonBar.getStyleClass().add("big-hbox");
+        canvasContainer.getStyleClass().add("big-vbox");
     }
 
     /**
@@ -76,6 +87,33 @@ public class GameplayPane extends BorderPane {
      */
     private void setCallbacks() {
         //TODO
+        restartButton.setOnAction(event -> doRestartAction());
+        quitToMenuButton.setOnAction(event -> doQuitToMenuAction());
+        this.setOnKeyPressed(event -> {
+            switch (event.getCode()){
+                case A:
+                    LevelManager.getInstance().getGameLevel().makeMove('a');
+                    break;
+                case D:
+                    LevelManager.getInstance().getGameLevel().makeMove('d');
+                    break;
+                case W:
+                    LevelManager.getInstance().getGameLevel().makeMove('w');
+                    break;
+                case S:
+                    LevelManager.getInstance().getGameLevel().makeMove('s');
+                    break;
+            }
+            MapRenderer.render(gamePlayCanvas, LevelManager.getInstance().getGameLevel().getMap().getCells());
+            AudioManager.getInstance().playMoveSound();
+            if(LevelManager.getInstance().getGameLevel().isWin()){
+                //TODO:Alert User
+                AudioManager.getInstance().playWinSound();
+            } else if(LevelManager.getInstance().getGameLevel().isDeadlocked()){
+                //TODO:Alert User
+                AudioManager.getInstance().playDeadlockSound();
+            }
+        });
     }
 
     /**
@@ -85,6 +123,7 @@ public class GameplayPane extends BorderPane {
      */
     private void doQuitToMenuAction() {
         //TODO
+        
     }
 
     /**
@@ -126,6 +165,6 @@ public class GameplayPane extends BorderPane {
      */
     private void renderCanvas() {
         //TODO
-        MapRenderer.render(gamePlayCanvas,);
+        MapRenderer.render(gamePlayCanvas,LevelManager.getInstance().getGameLevel().getMap().getCells());
     }
 }

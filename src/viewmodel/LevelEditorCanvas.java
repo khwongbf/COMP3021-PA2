@@ -34,7 +34,7 @@ public class LevelEditorCanvas extends Canvas {
      */
     public LevelEditorCanvas(int rows, int cols) {
         //TODO
-        super(rows * LEVEL_EDITOR_TILE_SIZE, cols *LEVEL_EDITOR_TILE_SIZE);
+        super(cols * LEVEL_EDITOR_TILE_SIZE, rows *LEVEL_EDITOR_TILE_SIZE);
         resetMap(rows, cols);
     }
 
@@ -142,29 +142,7 @@ public class LevelEditorCanvas extends Canvas {
                 printWriter.println(cols);
                 for (var i = 0 ; i < rows; i++){
                     for (var j = 0; j< cols; j++){
-                        switch (map[i][j]){
-                            case TILE:
-                                printWriter.print('.');
-                                break;
-                            case PLAYER_ON_TILE:
-                                printWriter.print('@');
-                                break;
-                            case PLAYER_ON_DEST:
-                                printWriter.print('&');
-                                break;
-                            case CRATE_ON_TILE:
-                                printWriter.print('c');
-                                break;
-                            case CRATE_ON_DEST:
-                                printWriter.print('$');
-                                break;
-                            case WALL:
-                                printWriter.print('#');
-                                break;
-                            case DEST:
-                                printWriter.print('C');
-                                break;
-                        }
+                        printWriter.print(map[i][j].getRep());
                     }
                     printWriter.println();
                 }
@@ -231,7 +209,7 @@ public class LevelEditorCanvas extends Canvas {
         }
 
         var invalidCondition = Arrays.asList((crateCount < 1 || destCount < 1), (crateCount != destCount), (playerCount != 1), (rows < 3 && cols < 3));
-        if (invalidCondition.stream().)
+        if (invalidCondition.stream())
         return !(Arrays.equals(new boolean[4], invalidCondition));//NOTE: You may also need to modify this line
     }
 
