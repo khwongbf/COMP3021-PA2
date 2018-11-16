@@ -77,6 +77,9 @@ public class LevelManager {
      */
     public void setLevel(String levelName) throws InvalidMapException {
         //TODO
+        curLevelNameProperty.set(levelName);
+        curGameLevelExistedDuration.set(0);
+        loadLevelNamesFromDisk();
     }
 
     /**
@@ -87,6 +90,7 @@ public class LevelManager {
      */
     public void startLevelTimer() {
         //TODO
+        
     }
 
     /**

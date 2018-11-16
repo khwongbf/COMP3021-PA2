@@ -48,7 +48,20 @@ public class LevelEditorPane extends BorderPane {
         levelEditor = new LevelEditorCanvas(5,5);
         rowField = new NumberTextField("5");
         colField = new NumberTextField("5");
-
+        rowText = new Label("Rows");
+        colText = new Label("Columns");
+        returnButton = new Button("Return");
+        newGridButton = new Button("New Grid");
+        saveButton = new Button("Save");
+        brushList.addAll(LevelEditorCanvas.Brush.values());
+        leftContainer = new VBox(20);
+        centerContainer = new VBox(20);
+        rowBox = new BorderPane();
+        colBox = new BorderPane();
+        
+        styleComponents();
+        connectComponents();
+        setCallbacks();
     }
 
     /**
@@ -59,6 +72,16 @@ public class LevelEditorPane extends BorderPane {
      */
     private void connectComponents() {
         //TODO
+        selectedBrush.setItems(brushList);
+        selectedBrush.getSelectionModel().select(0);
+        
+        rowBox.setLeft(rowText);
+        rowBox.setCenter(rowField);
+        colBox.setLeft(colText);
+        colBox.setCenter(colField);
+        
+        leftContainer.getChildren().addAll(returnButton,rowBox,colBox,newGridButton,selectedBrush,saveButton);
+        centerContainer.getChildren().addAll(levelEditor);
     }
 
     /**
