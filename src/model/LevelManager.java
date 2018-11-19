@@ -129,7 +129,13 @@ public class LevelManager {
      */
     public String getNextLevelName() {
         //TODO
-        return null;//NOTE: You may also change this line
+        var currentLevel = curLevelNameProperty.get();
+        if (levelNames.indexOf(currentLevel)+1 < levelNames.toArray().length){
+            return levelNames.get(levelNames.indexOf(currentLevel+1));
+        } else{
+            return null;
+        }
+        //NOTE: You may also change this line
     }
 
     public IntegerProperty curGameLevelExistedDurationProperty() {
