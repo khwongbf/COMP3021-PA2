@@ -181,36 +181,33 @@ public class LevelEditorCanvas extends Canvas {
      */
     private boolean isInvalidMap() {
         //TODO
-        int playerCount = 0;
-        int crateCount = 0;
-        int destCount = 0;
-        for (var i: map){
-            for (var j:i){
-                switch (j){
-                    case PLAYER_ON_TILE:
-                        playerCount++;
-                        break;
-                    case PLAYER_ON_DEST:
-                        destCount++;
-                        playerCount++;
-                        break;
-                    case CRATE_ON_TILE:
-                        crateCount++;
-                        break;
-                    case CRATE_ON_DEST:
-                        crateCount++;
-                        destCount++;
-                        break;
-                    case DEST:
-                        destCount++;
-                        break;
-                }
-            }
+        var brushStream = Arrays.stream(map).flatMap(Arrays::stream);
+        var crateCount = brushStream.filter(brush -> brush == Brush.CRATE_ON_DEST|| brush == Brush.CRATE_ON_TILE).count();
+        var destCount = brushStream.filter(brush -> brush == Brush.PLAYER_ON_DEST|| brush == Brush.CRATE_ON_DEST || brush == Brush.DEST).count();
+        var playerCount = brushStream.filter(brush -> brush == Brush.PLAYER_ON_DEST|| brush == Brush.PLAYER_ON_TILE).count();
+
+        // Check the conditions and modify the contentMessage that is to be displayed on the Alert window
+        String contentMessage = "";
+        if (crateCount < 1){
+            contentMessage = "Please create at least 1 crate and destination.";
+        } else if (crateCount != destCount){
+            contentMessage = "Imbalanced number of crates and destinations.";
+        } else if (playerCount != 1){
+            contentMessage = "Please add a player.";
+        } else if (rows < 3 || cols < 3){
+            contentMessage = "Minimum size is 3 rows and 3 cols.";
         }
 
-        var invalidCondition = Arrays.asList((crateCount < 1 || destCount < 1), (crateCount != destCount), (playerCount != 1), (rows < 3 && cols < 3));
-        if (invalidCondition.stream())
-        return !(Arrays.equals(new boolean[4], invalidCondition));//NOTE: You may also need to modify this line
+        // Create the Alert window if invalid, i.e. contentMessage is not empty.
+        if (!contentMessage.isEmpty()){
+            var alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Could not save map!");
+            alert.setContentText(contentMessage);
+            alert.showAndWait();
+        }
+
+        return !(contentMessage.isEmpty());//NOTE: You may also need to modify this line
     }
 
     /**
