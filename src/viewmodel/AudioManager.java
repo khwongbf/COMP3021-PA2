@@ -3,6 +3,7 @@ package viewmodel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,6 +47,24 @@ public class AudioManager {
      */
     private void playFile(String name) {
         //TODO
+        if (!isEnabled()){
+            return;
+        }
+        try {
+            var media = new Media(AudioManager.class.getResource("/assets/audio/"+ name +".mp3").toURI().toString());
+            var mediaPlayer = new MediaPlayer(media);
+            soundPool.add(mediaPlayer);
+            var thread = new Thread(()->{
+                soundPool.remove(mediaPlayer);
+                mediaPlayer.dispose();
+            });
+            thread.setDaemon(true);
+            mediaPlayer.setOnEndOfMedia(thread);
+            mediaPlayer.play();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     public void playMoveSound() {
