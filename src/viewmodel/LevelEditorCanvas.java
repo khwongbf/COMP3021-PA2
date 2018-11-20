@@ -35,7 +35,7 @@ public class LevelEditorCanvas extends Canvas {
     public LevelEditorCanvas(int rows, int cols) {
         //TODO
         super(cols * LEVEL_EDITOR_TILE_SIZE, rows *LEVEL_EDITOR_TILE_SIZE);
-        resetMap(rows, cols);
+        changeSize(rows, cols);
     }
 
     /**
@@ -97,8 +97,8 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void setTile(Brush brush, double x, double y) {
         //TODO
-        int row = Double.valueOf(y/LEVEL_EDITOR_TILE_SIZE).intValue();
-        int col = Double.valueOf(x/LEVEL_EDITOR_TILE_SIZE).intValue();
+        int row = Double.valueOf(x/LEVEL_EDITOR_TILE_SIZE).intValue();
+        int col = Double.valueOf(y/LEVEL_EDITOR_TILE_SIZE).intValue();
 
         // Remove the original player location
         switch (brush){
@@ -140,9 +140,9 @@ public class LevelEditorCanvas extends Canvas {
             try(var printWriter = new PrintWriter(file)){
                 printWriter.println(rows);
                 printWriter.println(cols);
-                for (var i = 0 ; i < rows; i++){
-                    for (var j = 0; j< cols; j++){
-                        printWriter.print(map[i][j].getRep());
+                for (var row: map){
+                    for (var item: row){
+                        printWriter.print(item.getRep());
                     }
                     printWriter.println();
                 }
@@ -163,7 +163,7 @@ public class LevelEditorCanvas extends Canvas {
         //TODO
         var fileChooser = new FileChooser();
         fileChooser.setTitle("Save Map");
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Normal text file", "*.txt"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Normal text file", "*.txt"));
         return fileChooser.showSaveDialog(null );//NOTE: You may also need to modify this line
     }
 
@@ -181,10 +181,9 @@ public class LevelEditorCanvas extends Canvas {
      */
     private boolean isInvalidMap() {
         //TODO
-        var brushStream = Arrays.stream(map).flatMap(Arrays::stream);
-        var crateCount = brushStream.filter(brush -> brush == Brush.CRATE_ON_DEST|| brush == Brush.CRATE_ON_TILE).count();
-        var destCount = brushStream.filter(brush -> brush == Brush.PLAYER_ON_DEST|| brush == Brush.CRATE_ON_DEST || brush == Brush.DEST).count();
-        var playerCount = brushStream.filter(brush -> brush == Brush.PLAYER_ON_DEST|| brush == Brush.PLAYER_ON_TILE).count();
+        var crateCount = Arrays.stream(map).flatMap(Arrays::stream).filter(brush -> brush == Brush.CRATE_ON_DEST|| brush == Brush.CRATE_ON_TILE).count();
+        var destCount = Arrays.stream(map).flatMap(Arrays::stream).filter(brush -> brush == Brush.PLAYER_ON_DEST|| brush == Brush.CRATE_ON_DEST || brush == Brush.DEST).count();
+        var playerCount = Arrays.stream(map).flatMap(Arrays::stream).filter(brush -> brush == Brush.PLAYER_ON_DEST|| brush == Brush.PLAYER_ON_TILE).count();
 
         // Check the conditions and modify the contentMessage that is to be displayed on the Alert window
         String contentMessage = "";

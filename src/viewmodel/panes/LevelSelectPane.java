@@ -125,7 +125,7 @@ public class LevelSelectPane extends BorderPane {
         directoryChooser.setTitle("Load map directory");
         var directory = directoryChooser.showDialog(null);
         if (directory != null){
-            LevelManager.getInstance().setMapDirectory(directory.getAbsolutePath());
+            LevelManager.getInstance().setMapDirectory(directory.getPath());
             LevelManager.getInstance().loadLevelNamesFromDisk();
         }
     }

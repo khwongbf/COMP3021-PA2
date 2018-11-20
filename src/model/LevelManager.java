@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Stream;
@@ -55,6 +56,13 @@ public class LevelManager {
      */
     public void loadLevelNamesFromDisk() {
         //TODO
+        levelNames.clear();
+        try {
+            Stream<Path> pathStream = Files.walk(Paths.get(mapDirectory), 1).sorted(Comparator.comparing(Path::getFileName));
+            pathStream.forEach(path -> levelNames.add(path.getFileName().toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ObservableList<String> getLevelNames() {

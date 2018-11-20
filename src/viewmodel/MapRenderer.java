@@ -51,10 +51,12 @@ public class MapRenderer {
      */
     static void render(Canvas canvas, LevelEditorCanvas.Brush[][] map) {
         //TODO
-        canvas.setHeight(map.length * LEVEL_EDITOR_TILE_SIZE);
-        canvas.setWidth(map[0].length * LEVEL_EDITOR_TILE_SIZE);
-        for (int i = 0; i < map.length; i++){
-            for (int j = 0; j < map[i].length; j++){
+        var numRows = map.length;
+        var numCol = map[0].length;
+        canvas.setHeight(numRows * LEVEL_EDITOR_TILE_SIZE);
+        canvas.setWidth( numCol * LEVEL_EDITOR_TILE_SIZE);
+        for (int i = 0; i < numRows; i++){
+            for (int j = 0; j < numCol; j++){
                 switch (map[i][j]){
                     case TILE:
                         canvas.getGraphicsContext2D().drawImage(tile,i*LEVEL_EDITOR_TILE_SIZE, j*LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE,LEVEL_EDITOR_TILE_SIZE);
@@ -80,6 +82,7 @@ public class MapRenderer {
                 }
             }
         }
+        
     }
 
     /**

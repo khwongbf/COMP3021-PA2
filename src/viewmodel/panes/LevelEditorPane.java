@@ -90,9 +90,9 @@ public class LevelEditorPane extends BorderPane {
         selectedBrush.getSelectionModel().select(0);
         
         rowBox.setLeft(rowText);
-        rowBox.setCenter(rowField);
+        rowBox.setRight(rowField);
         colBox.setLeft(colText);
-        colBox.setCenter(colField);
+        colBox.setRight(colField);
         
         leftContainer.getChildren().addAll(returnButton,rowBox,colBox,newGridButton,selectedBrush,saveButton);
         leftContainer.setAlignment(Pos.TOP_CENTER);
