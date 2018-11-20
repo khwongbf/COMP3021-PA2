@@ -106,7 +106,7 @@ public class LevelSelectPane extends BorderPane {
         levelsListView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
             try{
                 LevelManager.getInstance().setLevel(newValue);
-                MapRenderer.render(levelPreview,LevelManager.getInstance().getGameLevel().getMap().getCells());
+                MapRenderer.render(levelPreview, LevelManager.getInstance().getGameLevel().getMap().getCells());
                 playButton.setDisable(false);
             }catch (InvalidMapException e){
                 playButton.setDisable(true);
@@ -125,6 +125,7 @@ public class LevelSelectPane extends BorderPane {
         directoryChooser.setTitle("Load map directory");
         var directory = directoryChooser.showDialog(null);
         if (directory != null){
+            System.out.println("Path: " + directory.getPath());
             LevelManager.getInstance().setMapDirectory(directory.getPath());
             LevelManager.getInstance().loadLevelNamesFromDisk();
         }

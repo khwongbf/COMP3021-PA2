@@ -58,7 +58,7 @@ public class LevelManager {
         //TODO
         levelNames.clear();
         try {
-            Stream<Path> pathStream = Files.walk(Paths.get(mapDirectory), 1).sorted(Comparator.comparing(Path::getFileName));
+            Stream<Path> pathStream = Files.walk(Paths.get(mapDirectory), 1).filter(path -> path.getParent().toString().equals(mapDirectory)).sorted(Comparator.comparing(Path::getFileName));
             pathStream.forEach(path -> levelNames.add(path.getFileName().toString()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class LevelManager {
         curLevelNameProperty.set(levelName);
         resetLevelTimer();
         curGameLevelExistedDuration.set(0);
-        gameLevel.loadMap(levelName);
+        gameLevel.loadMap(mapDirectory + "\\" + levelName);
     }
 
     /**

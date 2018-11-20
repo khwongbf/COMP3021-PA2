@@ -105,26 +105,26 @@ public class MapRenderer {
                     if (map[i][j] instanceof DestTile) {
                         if (((DestTile) map[i][j]).getOccupant().isPresent()) {
                             if (((DestTile) map[i][j]).getOccupant().get() instanceof Player) {
-                                canvas.getGraphicsContext2D().drawImage(playerOnDest, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                                canvas.getGraphicsContext2D().drawImage(playerOnDest, j * LEVEL_EDITOR_TILE_SIZE, i * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                             } else {
-                                canvas.getGraphicsContext2D().drawImage(crateOnDest, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                                canvas.getGraphicsContext2D().drawImage(crateOnDest, j * LEVEL_EDITOR_TILE_SIZE, i * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                             }
                         } else {
-                            canvas.getGraphicsContext2D().drawImage(dest, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                            canvas.getGraphicsContext2D().drawImage(dest, j * LEVEL_EDITOR_TILE_SIZE, i * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                         }
                     } else {
                         if (((Tile) map[i][j]).getOccupant().isPresent()) {
                             if (((Tile) map[i][j]).getOccupant().get() instanceof Player) {
-                                canvas.getGraphicsContext2D().drawImage(playerOnTile, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                                canvas.getGraphicsContext2D().drawImage(playerOnTile, j * LEVEL_EDITOR_TILE_SIZE, i * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                             } else {
-                                canvas.getGraphicsContext2D().drawImage(crateOnTile, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                                canvas.getGraphicsContext2D().drawImage(crateOnTile, j * LEVEL_EDITOR_TILE_SIZE, i * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                             }
                         } else {
-                            canvas.getGraphicsContext2D().drawImage(tile, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                            canvas.getGraphicsContext2D().drawImage(tile, j * LEVEL_EDITOR_TILE_SIZE, i * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                         }
                     }
                 } else {
-                    canvas.getGraphicsContext2D().drawImage(wall, i * LEVEL_EDITOR_TILE_SIZE, j * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
+                    canvas.getGraphicsContext2D().drawImage(wall, j * LEVEL_EDITOR_TILE_SIZE, i * LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE, LEVEL_EDITOR_TILE_SIZE);
                 }
             }
         }

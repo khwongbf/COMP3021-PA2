@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import viewmodel.SceneManager;
 
 /**
@@ -59,6 +60,7 @@ public class MainMenuPane extends BorderPane {
     private void styleComponents() {
         //TODO
         container.getStyleClass().add("big-vbox");
+        title.setStyle("-fx-font-family: \"Courier New\"; -fx-font-size: 50;");
         playButton.getStyleClass().add("big-button");
         levelEditorButton.getStyleClass().add("big-button");
         settingsButton.getStyleClass().add("big-button");
