@@ -104,12 +104,14 @@ public class LevelSelectPane extends BorderPane {
             }
         });
         levelsListView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
-            try{
-                LevelManager.getInstance().setLevel(newValue);
-                MapRenderer.render(levelPreview, LevelManager.getInstance().getGameLevel().getMap().getCells());
-                playButton.setDisable(false);
-            }catch (InvalidMapException e){
-                playButton.setDisable(true);
+            if (newValue != null){
+                try{
+                    LevelManager.getInstance().setLevel(newValue);
+                    MapRenderer.render(levelPreview, LevelManager.getInstance().getGameLevel().getMap().getCells());
+                    playButton.setDisable(false);
+                }catch (InvalidMapException e){
+                    playButton.setDisable(true);
+                }
             }
         }));
     }

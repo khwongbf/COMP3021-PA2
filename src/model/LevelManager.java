@@ -138,8 +138,9 @@ public class LevelManager {
     public String getNextLevelName() {
         //TODO
         var currentLevel = curLevelNameProperty.get();
-        if (levelNames.indexOf(currentLevel)+1 < levelNames.toArray().length){
-            return levelNames.get(levelNames.indexOf(currentLevel+1));
+        var currentIndex = levelNames.indexOf(currentLevel);
+        if (currentIndex +1 < levelNames.size()){
+            return levelNames.get( currentIndex + 1);
         } else{
             return null;
         }

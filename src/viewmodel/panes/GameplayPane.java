@@ -46,6 +46,7 @@ public class GameplayPane extends BorderPane {
         
         info = new GameplayInfoPane(LevelManager.getInstance().currentLevelNameProperty(),  LevelManager.getInstance().curGameLevelExistedDurationProperty(), LevelManager.getInstance().getGameLevel().numPushesProperty(), LevelManager.getInstance().curGameLevelNumRestartsProperty());
 
+        renderCanvas();
         styleComponents();
         connectComponents();
         setCallbacks();
@@ -57,6 +58,7 @@ public class GameplayPane extends BorderPane {
     private void connectComponents() {
         //TODO
         buttonBar.getChildren().addAll(info,restartButton,quitToMenuButton);
+        buttonBar.setAlignment(Pos.BASELINE_CENTER);
         canvasContainer.getChildren().addAll(gamePlayCanvas,buttonBar);
         canvasContainer.setAlignment(Pos.CENTER);
         this.setCenter(canvasContainer);
@@ -134,6 +136,7 @@ public class GameplayPane extends BorderPane {
             if (option.get() == ButtonType.OK){
                 LevelManager.getInstance().resetLevelTimer();
                 LevelManager.getInstance().resetNumRestarts();
+                LevelManager.getInstance().getGameLevel().numPushesProperty().set(0);
                 SceneManager.getInstance().showMainMenuScene();
             }
         }
@@ -203,10 +206,13 @@ public class GameplayPane extends BorderPane {
                     renderCanvas();
                     LevelManager.getInstance().resetLevelTimer();
                     LevelManager.getInstance().resetNumRestarts();
+                    LevelManager.getInstance().getGameLevel().numPushesProperty().set(0);
+                    LevelManager.getInstance().startLevelTimer();
                 }catch (InvalidMapException e){
                 }
             }else if (option.get() == returnButtonType){
                 SceneManager.getInstance().showLevelSelectMenuScene();
+                LevelManager.getInstance().getGameLevel().numPushesProperty().set(0);
                 LevelManager.getInstance().resetNumRestarts();
             }
         }
@@ -225,6 +231,7 @@ public class GameplayPane extends BorderPane {
             LevelManager.getInstance().resetLevelTimer();
             LevelManager.getInstance().startLevelTimer();
             LevelManager.getInstance().incrementNumRestarts();
+            LevelManager.getInstance().getGameLevel().numPushesProperty().set(0);
         } catch (InvalidMapException e) {
             e.printStackTrace();
         }
