@@ -97,27 +97,27 @@ public class LevelEditorCanvas extends Canvas {
      */
     public void setTile(Brush brush, double x, double y) {
         //TODO
-        int row = Double.valueOf(x/LEVEL_EDITOR_TILE_SIZE).intValue();
-        int col = Double.valueOf(y/LEVEL_EDITOR_TILE_SIZE).intValue();
+        int row = Double.valueOf(y/LEVEL_EDITOR_TILE_SIZE).intValue();
+        int col = Double.valueOf(x/LEVEL_EDITOR_TILE_SIZE).intValue();
 
         // Remove the original player location
         switch (brush){
             case PLAYER_ON_TILE:
             case PLAYER_ON_DEST:
-                for (int i =0; i < map.length; i++){
-                    for (int j = 0; j < map[i].length; j++){
-                        switch (map[i][j]){
-                            case PLAYER_ON_TILE:
-                                map[i][j] = Brush.TILE;
-
-                                break;
-                            case PLAYER_ON_DEST:
-                                map[i][j] = Brush.DEST;
-                                break;
-                        }
+                if (oldPlayerCol < 0 && oldPlayerRow < 0){
+                    oldPlayerRow = row;
+                    oldPlayerCol = col;
+                } else {
+                    switch (map[oldPlayerRow][oldPlayerCol]){
+                        case PLAYER_ON_TILE:
+                            map[oldPlayerRow][oldPlayerCol] = Brush.TILE;
+                        case PLAYER_ON_DEST:
+                            map[oldPlayerRow][oldPlayerCol] = Brush.DEST;
                     }
+                    oldPlayerRow = row;
+                    oldPlayerCol = col;
                 }
-                break;
+            break;
         }
 
         map[row][col] = brush;
