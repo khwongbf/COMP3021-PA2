@@ -59,9 +59,10 @@ public class GameplayPane extends BorderPane {
         //TODO
         buttonBar.getChildren().addAll(info,restartButton,quitToMenuButton);
         buttonBar.setAlignment(Pos.BASELINE_CENTER);
-        canvasContainer.getChildren().addAll(gamePlayCanvas,buttonBar);
+        canvasContainer.getChildren().addAll(gamePlayCanvas);
         canvasContainer.setAlignment(Pos.CENTER);
         this.setCenter(canvasContainer);
+        this.setBottom(buttonBar);
     }
 
     /**
