@@ -1,5 +1,6 @@
 package viewmodel.panes;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
@@ -47,10 +48,15 @@ public class SettingsPane extends BorderPane {
     private void connectComponents() {
         //TODO
         leftContainer.getChildren().addAll(returnButton,toggleSoundFXButton);
-        centerContainer.getChildren().addAll(infoText);
+        //centerContainer.getChildren().addAll();
 
-        this.setCenter(centerContainer);
+        //centerContainer.setAlignment(Pos.TOP_LEFT);
+
+
+        this.setCenter(infoText);
         this.setLeft(leftContainer);
+
+        //BorderPane.setAlignment(this.getCenter(),Pos.TOP_LEFT);
     }
 
     /**
